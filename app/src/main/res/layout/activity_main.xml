@@ -40,7 +40,7 @@
         android:layout_height="52dp"
         android:textSize="14sp"
         android:hint="@string/introduce_la_base_de_la_ip_ej_192_168_1_1"
-        android:inputType="numberDecimal"/>
+        android:inputType="text"/>
 
         <Button
             android:id="@+id/buscar"
