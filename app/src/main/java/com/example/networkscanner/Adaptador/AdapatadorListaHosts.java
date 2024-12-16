@@ -30,23 +30,31 @@ public class AdapatadorListaHosts extends ArrayAdapter<Host> {
         this.hosts = hosts;
     }
 
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = super.getView(position, convertView, parent);
+        // Reutilizar la vista existente si no es nula
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.adaptador_lista_hosts, parent, false);
+        }
 
-        ipHost = view.findViewById(R.id.ipHost);
-        mac = view.findViewById(R.id.mac);
+        // Obtener referencias a los TextView del diseño
+        ipHost = convertView.findViewById(R.id.ipHost);
+        mac = convertView.findViewById(R.id.mac);
 
+        // Configurar los valores de los TextView
         ipHost.setText(hosts.get(position).getIp());
         mac.setText(hosts.get(position).getMac());
 
-        if(position%2!=0){
-            view.setBackgroundColor(Color.rgb(37,87,163));
+        // Cambiar el color de fondo en función de la posición
+        if (position % 2 != 0) {
+            convertView.setBackgroundColor(Color.rgb(37, 87, 163));
+        } else {
+            convertView.setBackgroundColor(Color.TRANSPARENT); // Fondo predeterminado
         }
 
-        return view;
+        return convertView;
     }
+
 }
