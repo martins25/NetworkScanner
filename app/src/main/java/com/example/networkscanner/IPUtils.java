@@ -1,10 +1,13 @@
 package com.example.networkscanner;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,6 +15,7 @@ public class IPUtils {
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     public void scanNetwork(String subnet, ScanCallback callback) {
+        CountDownLatch latch = new CountDownLatch(254);
         for (int i = 1; i < 255; i++) {
             final String host = subnet + "." + i;
             executorService.submit(() -> {
@@ -22,9 +26,19 @@ public class IPUtils {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                }finally {
+                    latch.countDown();
                 }
             });
         }
+        new Thread(() -> {
+            try {
+                latch.await();
+                new Handler(Looper.getMainLooper()).post(callback::onScanComplete);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public interface ScanCallback {

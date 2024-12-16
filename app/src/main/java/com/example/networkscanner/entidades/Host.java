@@ -1,6 +1,8 @@
 package com.example.networkscanner.entidades;
 
-public class Host {
+import java.io.Serializable;
+
+public class Host implements Serializable {
 
     private String ip;
     private String mac;

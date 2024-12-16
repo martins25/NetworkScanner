@@ -16,7 +16,7 @@ import com.example.networkscanner.entidades.Host;
 
 import java.util.ArrayList;
 
-public class AdapatadorListaHosts extends ArrayAdapter {
+public class AdapatadorListaHosts extends ArrayAdapter<Host> {
 
     Context context;
     ArrayList<Host> hosts;
