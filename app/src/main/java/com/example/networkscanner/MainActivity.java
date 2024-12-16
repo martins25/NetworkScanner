@@ -3,6 +3,7 @@ package com.example.networkscanner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ipUser.setText(" "+getIpAddress());
         buscar.setOnClickListener(this);
 
+        //Sobreescribimos el metodo CharSquence para permitir lo que nosotros queramos en el editText
         InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    //Metodo para extraer nuestra direccion IP
     private String getIpAddress() {
         WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -75,12 +79,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return ipAddress;
     }
 
-
+    //Metodo para comprobar si es una direccion valida o no
     public boolean isValidIPAddress(String ip) {
         String regex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         return ip.matches(regex);
     }
-
 
 
     ArrayList<String> listaHost = new ArrayList<>();
@@ -88,24 +91,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-
+        //Spiteamos la direccion
         String[] direccion = ipscanner.getText().toString().split("\\.");
 
-        System.out.println(direccion.length);
+        //Creamos el dialogo de progreso que este congela la aplicacion mientras escanea la red
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Escaneando la red...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         if (isValidIPAddress(ipscanner.getText().toString())&&direccion.length==4){
 
+            //Creamos el rango de ip para pasaserlo al escaner
             String ip = direccion[0]+"."+direccion[1]+"."+direccion[2];
             ipscanner.setBackgroundColor(0);
 
             IPUtils scanner = new IPUtils();
             scanner.scanNetwork(ip, new IPUtils.ScanCallback(){
+                //Implementamos este metodo de la interfaz entoces todos los host que vaya encontrando los va mostrando en la lista
                 @Override
                 public void onHostFound(String host) {
                     runOnUiThread(() -> {
                         listaHost.add(host);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listaHost);
                         lista.setAdapter(adapter);
+                    });
+                }
+
+                //Este metodo que hemos implementado de la interfaz se ejecuta cuando se acaba el proceso
+                @Override public void onScanComplete() {
+                    runOnUiThread(() -> {
+                        progressDialog.dismiss();
                     });
                 }
             });

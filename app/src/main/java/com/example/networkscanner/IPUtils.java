@@ -28,6 +28,7 @@ public class IPUtils {
 
     public interface ScanCallback {
         void onHostFound(String host);
+        void onScanComplete();
     }
 
 }
