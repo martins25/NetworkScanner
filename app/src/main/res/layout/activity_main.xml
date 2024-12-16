@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    android:background="@color/azulBrillante">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tu_ip_es"/>
+
+        <TextView
+            android:id="@+id/ipUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+    <EditText
+        android:id="@+id/ipscanner"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:textSize="14sp"
+        android:hint="@string/introduce_la_base_de_la_ip_ej_192_168_1_1"
+        android:inputType="numberDecimal"/>
+
+        <Button
+            android:id="@+id/buscar"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="@string/buscar"
+            android:background="@color/verdePastel"/>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/resultado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"/>
+
+
+</LinearLayout>
