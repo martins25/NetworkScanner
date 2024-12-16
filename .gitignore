@@ -1,0 +1,38 @@
+# Archivos del sistema operativo
+.DS_Store          # MacOS
+Thumbs.db          # Windows
+
+# Archivos generados por Android Studio
+.idea/             # Directorio de configuración de Android Studio
+.gradle/           # Archivos generados por Gradle
+local.properties    # Información de configuración local (contiene claves privadas y configuraciones de entorno)
+build/             # Carpeta de construcción generada por Gradle
+captures/          # Capturas de pantalla tomadas con la funcionalidad de Android Studio
+
+# Archivos de dependencias y compilación de Gradle
+.gradle
+gradle/
+/.gradle
+/build/
+!gradle-wrapper.jar
+
+# Archivos generados por el sistema de pruebas
+*.log
+*.csv
+*.dat
+*.gz
+*.apk
+*.ap_            # APK de pruebas o compilación
+*.aab             # Android App Bundle
+
+# Archivos de Proguard (minificación y obfuscación)
+proguard/
+
+# Archivos relacionados con las claves de firma (importante para seguridad)
+*.jks
+*.keystore
+
+# Archivos específicos de la versión del sistema de construcción
+*.iml
+.cxx
+.externalNativeBuild
