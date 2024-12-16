@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,7 +18,7 @@ public class IPUtils {
                 try {
                     InetAddress inetAddress = InetAddress.getByName(host);
                     if (inetAddress.isReachable(1000)) {
-                        callback.onHostFound(host);
+                        callback.onHostFound(host, getMacAddress(host));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -27,8 +28,30 @@ public class IPUtils {
     }
 
     public interface ScanCallback {
-        void onHostFound(String host);
+        void onHostFound(String host, String mac);
         void onScanComplete();
     }
 
+    public String getMacAddress(String ipAddress) {
+        try {
+            InetAddress inetAddress = InetAddress.getByName(ipAddress);
+            NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
+            byte[] macBytes = networkInterface.getHardwareAddress();
+            if (macBytes == null) {
+                return null;
+            }
+            StringBuilder macAddress = new StringBuilder();
+            for (byte b : macBytes) {
+                macAddress.append(String.format("%02X:", b));
+            }
+            if (macAddress.length() > 0) {
+                macAddress.deleteCharAt(macAddress.length() - 1);
+            }
+            return macAddress.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 }

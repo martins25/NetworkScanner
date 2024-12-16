@@ -20,6 +20,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.networkscanner.Adaptador.AdapatadorListaHosts;
+import com.example.networkscanner.entidades.Host;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buscar.setOnClickListener(this);
 
         //Sobreescribimos el metodo CharSquence para permitir lo que nosotros queramos en el editText
+
+
         InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    ArrayList<String> listaHost = new ArrayList<>();
+    ArrayList<Host> listaHost = new ArrayList<Host>();
 
     @Override
     public void onClick(View v) {
@@ -107,13 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ipscanner.setBackgroundColor(0);
 
             IPUtils scanner = new IPUtils();
+            Context context = this;
             scanner.scanNetwork(ip, new IPUtils.ScanCallback(){
                 //Implementamos este metodo de la interfaz entoces todos los host que vaya encontrando los va mostrando en la lista
                 @Override
-                public void onHostFound(String host) {
+                public void onHostFound(String host, String mac) {
                     runOnUiThread(() -> {
-                        listaHost.add(host);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listaHost);
+                        listaHost.add(new Host(ip, mac));
+                        AdapatadorListaHosts adapter = new AdapatadorListaHosts(context, listaHost);
+                        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listaHost);
                         lista.setAdapter(adapter);
                     });
                 }
