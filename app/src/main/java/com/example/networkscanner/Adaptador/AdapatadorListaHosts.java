@@ -20,7 +20,7 @@ public class AdapatadorListaHosts extends ArrayAdapter<Host> {
 
     Context context;
     ArrayList<Host> hosts;
-    TextView ipHost, mac;
+    TextView ipHost, mac, so, fabricante;
 
 
 
@@ -42,10 +42,14 @@ public class AdapatadorListaHosts extends ArrayAdapter<Host> {
         // Obtener referencias a los TextView del diseño
         ipHost = convertView.findViewById(R.id.ipHost);
         mac = convertView.findViewById(R.id.mac);
+        so = convertView.findViewById(R.id.so);
+        fabricante = convertView.findViewById(R.id.fabricante);
 
         // Configurar los valores de los TextView
         ipHost.setText(hosts.get(position).getIp());
         mac.setText(hosts.get(position).getMac());
+        so.setText(hosts.get(position).getOperatingSystem());
+        fabricante.setText(hosts.get(position).getFabricante());
 
         // Cambiar el color de fondo en función de la posición
         if (position % 2 != 0) {
