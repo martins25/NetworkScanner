@@ -81,8 +81,26 @@ public class IPUtils {
             return macAddress.toString();
         } catch (Exception e) {
             e.printStackTrace();
-            return "Dirección MAC no encontrada.";
         }
+
+        try {
+            // Ejecuta el comando ARP y obtiene la salida
+            Process process = Runtime.getRuntime().exec("arp -a " + ipAddress);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains(ipAddress)) {
+                    // Extrae la dirección MAC de la salida del comando ARP
+                    String[] parts = line.split(" +");
+                    if (parts.length >= 4) {
+                        return parts[3];
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Dirección MAC no encontrada.";
     }
 
     public String getOperatingSystem(String ipAddress){
@@ -125,6 +143,7 @@ public class IPUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return "Sistema Operativo, no identificado";
     }
 }

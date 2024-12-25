@@ -1,5 +1,6 @@
 package com.example.networkscanner.Adaptador;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class AdapatadorListaHosts extends ArrayAdapter<Host> {
         this.hosts = hosts;
     }
 
+    @SuppressLint("ResourceAsColor")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -53,9 +55,9 @@ public class AdapatadorListaHosts extends ArrayAdapter<Host> {
 
         // Cambiar el color de fondo en función de la posición
         if (position % 2 != 0) {
-            convertView.setBackgroundColor(Color.rgb(37, 87, 163));
+            convertView.setBackgroundColor(R.color.azulBrillante);
         } else {
-            convertView.setBackgroundColor(Color.TRANSPARENT); // Fondo predeterminado
+            convertView.setBackgroundColor(R.color.azulBrillante2); // Fondo predeterminado
         }
 
         return convertView;
