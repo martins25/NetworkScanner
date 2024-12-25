@@ -9,13 +9,15 @@
         android:id="@+id/ipHost"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/mac"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textSize="16sp"/>
 
 
 </LinearLayout>

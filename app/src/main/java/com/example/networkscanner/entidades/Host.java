@@ -13,6 +13,9 @@ public class Host implements Serializable {
         this.mac = mac;
     }
 
+    public Host(String ip) {
+        this.ip = ip;
+    }
 
     public String getIp() {
         return ip;

@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.networkscanner.Adaptador.AdapatadorListaHosts;
@@ -40,16 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         ipUser = findViewById(R.id.ipUser);
-        ipscanner = findViewById(R.id.ipscanner);
+        //ipscanner = findViewById(R.id.ipscanner);
         buscar = findViewById(R.id.buscar);
         lista = findViewById(R.id.resultado);
 
         ipUser.setText(" "+getIpAddress());
         buscar.setOnClickListener(this);
-
+/*
         //Sobreescribimos el metodo CharSquence para permitir lo que nosotros queramos en el editText
-
-
         InputFilter filter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Aplicamos el filtro al EditText
         ipscanner.setFilters(new InputFilter[]{filter});
-
+*/
     }
 
 
@@ -84,20 +84,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return ipAddress;
     }
 
+    /*
     //Metodo para comprobar si es una direccion valida o no
     public boolean isValidIPAddress(String ip) {
         String regex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         return ip.matches(regex);
     }
+*/
 
-
-    ArrayList<Host> listaHost = new ArrayList<Host>();
+    ArrayList<Host> listaHost;
 
     @Override
     public void onClick(View v) {
 
         //Spiteamos la direccion
-        String[] direccion = ipscanner.getText().toString().split("\\.");
+        //String[] direccion = ipscanner.getText().toString().split("\\.");
 
         //Creamos el dialogo de progreso que este congela la aplicacion mientras escanea la red
         ProgressDialog progressDialog = new ProgressDialog(this);
@@ -105,36 +106,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        if (isValidIPAddress(ipscanner.getText().toString())&&direccion.length==4){
 
-            //Creamos el rango de ip para pasaserlo al escaner
-            String ip = direccion[0]+"."+direccion[1]+"."+direccion[2];
-            ipscanner.setBackgroundColor(0);
+        IPUtils scanner = new IPUtils();
+        Context context = this;
+        listaHost = scanner.scanNetwork(getIpAddress(),new IPUtils.ScanCallback(){
+            //Este metodo que hemos implementado de la interfaz se ejecuta cuando se acaba el proceso
+            @Override public void onScanComplete() {
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
 
-            IPUtils scanner = new IPUtils();
-            Context context = this;
-            scanner.scanNetwork(ip, new IPUtils.ScanCallback(){
-                //Implementamos este metodo de la interfaz entoces todos los host que vaya encontrando los va mostrando en la lista
-                @Override
-                public void onHostFound(String host, String mac) {
-                    runOnUiThread(() -> {
-                        listaHost.add(new Host(ip, mac));
+                    if(listaHost.size() == 0){
+                        Toast.makeText(context, "No se ha encotrado ningun dispositivo", Toast.LENGTH_LONG);
+                    }else {
+                        System.out.println("\n\n\n\nENTRAMOS en el else\n\n\n\n");
+                        //Implementamos este metodo de la interfaz entoces todos los host que vaya encontrando los va mostrando en la lista
                         AdapatadorListaHosts adapter = new AdapatadorListaHosts(context, listaHost);
                         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listaHost);
                         lista.setAdapter(adapter);
-                    });
-                }
+                    }
+                });
+            }
+        });
 
-                //Este metodo que hemos implementado de la interfaz se ejecuta cuando se acaba el proceso
-                @Override public void onScanComplete() {
-                    runOnUiThread(() -> {
-                        progressDialog.dismiss();
-                    });
-                }
-            });
 
-        }else{
-            ipscanner.setBackgroundColor(Color.rgb(255,0,0));
-        }
     }
 }

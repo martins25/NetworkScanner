@@ -18,12 +18,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tu_ip_es"/>
+            android:text="@string/tu_ip_es"
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/ipUser"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:textSize="18sp"/>
 
     </LinearLayout>
 
@@ -34,6 +36,7 @@
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
+        <!--
     <EditText
         android:id="@+id/ipscanner"
         android:layout_width="wrap_content"
@@ -41,12 +44,12 @@
         android:textSize="14sp"
         android:hint="@string/introduce_la_base_de_la_ip_ej_192_168_1_1"
         android:inputType="text"/>
-
+    -->
         <Button
             android:id="@+id/buscar"
             android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
             android:text="@string/buscar"
             android:background="@color/verdePastel"/>
 
