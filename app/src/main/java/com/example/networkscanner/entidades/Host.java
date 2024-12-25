@@ -6,15 +6,12 @@ public class Host implements Serializable {
 
     private String ip;
     private String mac;
+    private String OperatingSystem;
 
-
-    public Host(String ip, String mac) {
+    public Host(String ip, String mac, String operatingSystem) {
         this.ip = ip;
         this.mac = mac;
-    }
-
-    public Host(String ip) {
-        this.ip = ip;
+        OperatingSystem = operatingSystem;
     }
 
     public String getIp() {

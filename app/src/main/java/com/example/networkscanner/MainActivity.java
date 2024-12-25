@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(listaHost.size() == 0){
                         Toast.makeText(context, "No se ha encotrado ningun dispositivo", Toast.LENGTH_LONG);
                     }else {
-                        System.out.println("\n\n\n\nENTRAMOS en el else\n\n\n\n");
                         //Implementamos este metodo de la interfaz entoces todos los host que vaya encontrando los va mostrando en la lista
                         AdapatadorListaHosts adapter = new AdapatadorListaHosts(context, listaHost);
                         //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listaHost);
