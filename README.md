@@ -1,4 +1,4 @@
-# NetworkScanner (EN DESARROLLO)
+# NetworkScanner (EN DESARROLLO!!!)
 
 NetworkScanner es una aplicación para Android que permite escanear la red en busca de dispositivos conectados. La aplicación muestra información detallada de cada dispositivo encontrado, incluyendo su dirección IP, dirección MAC, fabricante y sistema operativo.
 
